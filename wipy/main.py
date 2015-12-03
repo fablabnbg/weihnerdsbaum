@@ -2,7 +2,7 @@
 
 import os,struct,time
 import ws2812
-leds=20*5*2
+leds=10*5*2
 chain = ws2812.WS2812(nleds=leds)
 
 ## bloede billig china-kette....
@@ -13,7 +13,8 @@ chain = ws2812.WS2812(nleds=leds)
 #       R B G
 dark = (12,0,8)
 
-bright = [ dark,(200,20,150),dark,(200,0,150), dark, dark, (255,0,140), dark,(200,80,100), dark, dark, dark, (200,0,20) ]
+#                red     , yellow   , white     ,  white
+bright = [ dark,(200,0,0),(255,0,60),(255,16,64),(200,20,150),dark, dark, dark, (255,0,60), dark, dark, dark, dark, (200,0,20) ]
 bright_idx = 0
 
 data = leds*[dark]
@@ -22,7 +23,9 @@ def ru16():
   return struct.unpack("<H", os.urandom(2))[0]
 
 def rint(top):
-  return ru16() * top // 65535
+  v = ru16() * top // 65535
+  if v == top: v = top - 1
+  return v
 
 for b in bright:
   data[rint(leds)] = b
@@ -30,12 +33,13 @@ for b in bright:
   data[rint(leds)] = b
 
 while True:
-  chain.show(data)
-  time.sleep_ms(100)
-  i = rint(leds)
-  print(i)
-  data[i] = bright[bright_idx]
-  bright_idx = bright_idx + 1
-  if (bright_idx >= len(bright)): 
-    bright_idx = 0
+  for i in range(leds):
+    n = rint(len(bright))
+    data[i] = bright[n]
+    chain.show(data)
+  for i in reversed(range(leds)):
+    n = rint(len(bright))
+    data[i] = bright[n]
+    chain.show(data)
+
 
