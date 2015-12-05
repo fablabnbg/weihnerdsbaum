@@ -44,3 +44,6 @@ chain = ws2812.WS2812(nleds=14)
 chain.show([ (255, 0, 0), (0, 255, 0), (0, 0, 255), (30, 30, 30) ])
 
 
+running tests
+-------------
+execfile('try_wlan.py')
