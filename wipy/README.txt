@@ -53,8 +53,36 @@ execfile('try_wlan.py')
 
 reading a url
 -------------
+#!/usr/bin/env python3
+# for https example see ~/src/github/wipy/wipy/lib/blynk/BlynkLib.py 
+
+## curl -i http://api.fablab-nuernberg.de/tuer.php
+# HTTP/1.1 200 OK
+# Date: Sat, 12 Dec 2015 11:12:35 GMT
+# Server: Apache
+# Transfer-Encoding: chunked
+# Content-Type: text/html; charset=UTF-8
+# 
+# Status:<br/>geschlossen<br/><br/>Letzte Änderung:<br/>12.12.2015 05:29 CET<br/>Letzte Meldung:<br/>12.12.2015 12:10 CET<br/>
+# 
+url_server = 'api.fablab-nuernberg.de'
+url_port = 80
+url_path = '/tuer.php'
 
 import socket
 s = socket.socket()
-s.connect(socket.getaddrinfo('fablink.de', 80)[0][4])
+s.connect(socket.getaddrinfo(host, port)[0][4])
+s.send( "GET "+url_path+" HTTP/1.0\r\n\r\n")
+#data = mysocket.recv(1024)
+f = s.makefile('rb')
+data = f.read()
+s.close()
+print data
+if (data.contains('geschlossen')):
+  print("zu")
+else:
+  print("offen")
 
+url_path = '/spaceapi.php'
+s.send( "GET "+url_path+" HTTP/1.0\r\n\r\n")
+json = s.recv(1024)
