@@ -19,9 +19,10 @@ time.sleep(2)
 
 success = False
 out = open("/flash/out.txt", "w")
+print("len(nets)="+str(len(nets)), file=out)
 
 for net in nets:
-  print("net="+net.ssid, file=out)
+  print("net="+str(net.ssid), file=out)
   if net.ssid == 'jw samsung s4':
     print("s4 hotspot found", file=out)
     try:
@@ -41,6 +42,7 @@ for net in nets:
       while not wlan.isconnected():
         machine.idle()
       print('wlan connection succeeded', file=out)
+      print(str(wlan.ifconfig()), file=out)
       success=True
       break
     except:
@@ -48,7 +50,8 @@ for net in nets:
 
 if not success:
   print('none connected. Returning to AP mode', file=out)
+  wlan = network.WLAN(mode=network.WLAN.AP)
 
-chain.show(10 * [(0,0,8)])
-wlan = network.WLAN(mode=network.WLAN.AP)
+out.close()
+
 chain.show(10 * [(12,0,0)])

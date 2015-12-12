@@ -44,6 +44,17 @@ chain = ws2812.WS2812(nleds=14)
 chain.show([ (255, 0, 0), (0, 255, 0), (0, 0, 255), (30, 30, 30) ])
 
 
-running tests
--------------
+move into fablab wlan
+---------------------
 execfile('try_wlan.py')
+
+172.16.21.147
+
+
+reading a url
+-------------
+
+import socket
+s = socket.socket()
+s.connect(socket.getaddrinfo('fablink.de', 80)[0][4])
+
