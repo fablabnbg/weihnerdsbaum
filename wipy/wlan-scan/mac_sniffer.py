@@ -56,7 +56,16 @@ vendor = generate_manufacturer_index('manuf.txt')
 
 def record_mac(pkt, addr):
   mac_seen.add(addr)
-  print len(mac_seen), addr, lookup_manufacturer(vendor, addr), "\n\t"+pkt.summary()
+  if addr is None: return
+  addr = addr.upper()
+  f = open("seen.txt", "a")
+  print >>f, addr, pkt.summary()
+  f.close()
+  if addr == '00:16:DC:67:7F:84': 
+  	print "ASUS A10 seen =============================="
+	sys.exit()
+  if addr == '5C:51:4F:4C:13:50': print "t440s seen =============================="
+  print "\n", len(mac_seen), addr, lookup_manufacturer(vendor, addr), "\n\t"+pkt.summary()
 
 
 def Handler(pkt):
