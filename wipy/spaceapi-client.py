@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 #
 
-from FabLabNbgAPI import FabLabNbgAPI
+import FabLabNbgAPI
 import time
 
-api = FabLabNbgAPI()
+api = FabLabNbgAPI.SpaceAPI()
 (state,since) = api.poll([ 'state/open', 'state/lastchange' ])
 
 if state:

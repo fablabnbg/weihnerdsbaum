@@ -2,6 +2,10 @@
 
 import os,struct,time
 import ws2812
+import FabLabNbgAPI
+
+space = FabLabNbgAPI.SpaceAPI()
+
 leds=10*5*2
 chain = ws2812.WS2812(nleds=leds)
 
@@ -33,13 +37,18 @@ for b in bright:
   data[rint(leds)] = b
 
 while True:
-  for i in range(leds):
-    n = rint(len(bright))
-    data[i] = bright[n]
-    chain.show(data)
-  for i in reversed(range(leds)):
-    n = rint(len(bright))
-    data[i] = bright[n]
-    chain.show(data)
+  if not space.poll(['state/open']):
+    chain.show([dark])
+    time.delay(100)
+    break
 
+  for loop in range(1000):
+    for i in range(leds):
+      n = rint(len(bright))
+      data[i] = bright[n]
+      chain.show(data)
+    for i in reversed(range(leds)):
+      n = rint(len(bright))
+      data[i] = bright[n]
+      chain.show(data)
 

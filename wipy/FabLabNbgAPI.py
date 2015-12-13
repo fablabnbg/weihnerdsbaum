@@ -7,9 +7,10 @@ import json
 
 version = '0.1'
 
-class FabLabNbgAPI():
+class SpaceAPI():
   """
   access the spaceapi data of FabLab Nuernberg
+  api = FabLabNbgAPI.SpaceAPI()
   """
   def __init__(self,ua='spaceapi/'+version):
     self.url_host = 'api.fablab-nuernberg.de'
@@ -53,7 +54,7 @@ class FabLabNbgAPI():
 if __name__ == '__main__':
   import time
 
-  api = FabLabNbgAPI()
+  api = SpaceAPI()
   space = api.poll()
 
   if space['state']['open']:
