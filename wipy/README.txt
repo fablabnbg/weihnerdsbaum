@@ -65,24 +65,23 @@ reading a url
 # 
 # Status:<br/>geschlossen<br/><br/>Letzte Änderung:<br/>12.12.2015 05:29 CET<br/>Letzte Meldung:<br/>12.12.2015 12:10 CET<br/>
 # 
-url_server = 'api.fablab-nuernberg.de'
+url_host = 'api.fablab-nuernberg.de'
 url_port = 80
 url_path = '/tuer.php'
 
 import socket
 s = socket.socket()
-s.connect(socket.getaddrinfo(host, port)[0][4])
-s.send( "GET "+url_path+" HTTP/1.0\r\n\r\n")
-#data = mysocket.recv(1024)
+s.connect(socket.getaddrinfo(url_host, url_port)[0][4])
+s.send( "GET "+url_path+" HTTP/1.0\r\nHost: "+url_host+"\r\n\r\n")
 f = s.makefile('rb')
 data = f.read()
+f.close()
 s.close()
-print data
-if (data.contains('geschlossen')):
-  print("zu")
+(header,body) = data.split("\r\n\r\n")
+print body
+# 'Status:<br/>offen<br/><br/>Letzte \xc3\x84nderung:<br/>13.12.2015 14:24 CET<br/>Letzte Meldung:<br/>13.12.2015 15:10 CET<br/>'
+if body.find('offen') >= 0):
+  print("auf")
 else:
-  print("offen")
+  print("zu")
 
-url_path = '/spaceapi.php'
-s.send( "GET "+url_path+" HTTP/1.0\r\n\r\n")
-json = s.recv(1024)
