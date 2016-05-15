@@ -3,7 +3,7 @@
 #
 # WiFi mac address sniffer (passive)
 #
-# (C) 2015 juewei@fabfolk.com (based on code from Adam Ziaja)
+# (C) 2015 juewei@fabmail.org (based on code from Adam Ziaja)
 
 from scapy.all import *
 
